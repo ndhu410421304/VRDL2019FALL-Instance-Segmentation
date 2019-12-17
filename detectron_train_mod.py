@@ -78,22 +78,25 @@ from detectron2.engine import DefaultTrainer
 from detectron2.config import get_cfg
 
 cfg = get_cfg()
-cfg.merge_from_file("./configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml")
+cfg.merge_from_file("./configs/COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml")
 cfg.DATASETS.TRAIN = ("voc_train",)
 cfg.DATASETS.TEST = ()
 cfg.DATALOADER.NUM_WORKERS = 0 # not to OOM / break pipe
 # cfg.MODEL.WEIGHTS = "detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl"  # initialize from model zoo
+cfg.MODEL.WEIGHTS = "detectron2://ImageNetPretrained/MSRA/R-101.pkl"  # initialize from model zoo
 # cfg.MODEL.WEIGHTS = "pretrain/R-50-GN.pkl"  # initialize from model zoo
-cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth") # already 10000
+# cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth") # already 10000
 cfg.SOLVER.IMS_PER_BATCH = 2
 cfg.SOLVER.BASE_LR = 0.00025
-cfg.SOLVER.MAX_ITER = 40000    # 300 iterations seems good enough, but you can certainly train longer
+cfg.SOLVER.MAX_ITER = 80000    # 300 iterations seems good enough, but you can certainly train longer
 cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128   # faster, and good enough for this toy dataset
 cfg.MODEL.ROI_HEADS.NUM_CLASSES = 20 + 1  # only has 20 class (ballon)
 
+cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
+
 os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
 trainer = DefaultTrainer(cfg) 
-trainer.resume_or_load(resume=True) # reload
+trainer.resume_or_load(resume=False) # reload
 trainer.train()
 
 # Commented out IPython magic to ensure Python compatibility.
@@ -106,7 +109,7 @@ Now, let's run inference with the trained model on the voc validation dataset. F
 """
 
 cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")
-cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.7   # set the testing threshold for this model
+cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5   # set the testing threshold for this model
 cfg.DATASETS.TEST = ("voc_val", )
 predictor = DefaultPredictor(cfg)
 
