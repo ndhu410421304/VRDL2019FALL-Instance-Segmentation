@@ -14,8 +14,8 @@ The following specs were used to create the original solution.
 ## Reproducing Submission
 To reproduct my submission without retrainig, do the following steps:
 1. [Installation](#installation)
-2. [Dataset Preparation](#Dataset Preparation)
-3. [Train models](#Train models)
+2. [Dataset Preparation](#dataset-preparation)
+3. [Train models](#train-models)
 4. [Make Submission](#make-submission)
 
 ## Installation
