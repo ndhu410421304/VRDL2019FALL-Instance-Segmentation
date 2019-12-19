@@ -3,7 +3,14 @@ This is an assignment of implement instance segementation on tiny pascal voc dat
 I had implement the task base on two backbone modules:
 1. Mask RCNN, from https://github.com/matterport/Mask_RCNN
 2. Detectron2(windows build), from https://github.com/conansherry/detectron2
+
 However since the first one is not I had not proper fine-tuned and it did not perform well yet, I would like to only focus on dectron2.
+The code I had written were 
+1. detectron_train.py https://github.com/ndhu410421304/VRDL2019FALL-Instance-Segmentation/blob/master/Detectron2/detectron_train_mod.py
+and 
+2. detectron_test_mod_mult.py https://github.com/ndhu410421304/VRDL2019FALL-Instance-Segmentation/blob/master/Detectron2/detectron_test_mod_mult.py
+
+Both of these file were start modify from detectron2's colab notebook https://colab.research.google.com/drive/16jcaJoc6bCFAQ96jDe2HwtXj7BMD_-m5
 
 ## Hardware
 The following specs were used to create the original solution.
@@ -73,9 +80,8 @@ Note: you may need to rebuild detectron2 after reinstalling a different build of
 
 #### Note: above part from detectron2's repository ####
 
-* You can view my detectron2 directory to see how to locate file correctly. Can ignore the file not mention in following.
-
 ## Dataset Preparation
+* You can view my detectron2 directory to see how to locate file correctly. Can ignore the file not mention in following.
 You may need to put the annotation file in root directory:
 ```
 +- pascal_train.json
@@ -115,4 +121,8 @@ Following command will ensemble of all models and make submissions.
 ```
 python detectron_test_mod_mult.py
 ```
-Notice that if you have modify anything in detectron_train_mod.py, change the same setting in this file before running
+* Notice that if you have modify anything in detectron_train_mod.py, change the same setting in detectron_test_mod_mult.py before running.
+
+## File explanation
+
+
