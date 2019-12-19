@@ -125,4 +125,16 @@ python detectron_test_mod_mult.py
 
 ## File explanation
 
+detectron_train_mod.py is the file we use for training. In this file, you are going to 
+1. (27) Implement a get_dict class as data loader, which you may need to record the image path and annotation for each file.
+2. (52) Generate catalog files, one for dataset, one for metafile(class name)
+3. (74) Setup configurarion.
+* If you do not set it up, it will loadtheconfiguration from the backbone you set.
+4. (95) Start training!
+5. (100) Load the final weight generated, then do validation visualization.
+* Here we use same image file in train and validation set for convinience
 
+detectron_test_mod_mult.py is the file we use for generating multiple submission files by check point at a time. In this file, you are going to
+1. Same step as step 1-3 as above, expect that this time we only need to load testing data.
+* Becuase we do not have annotation file for test data, we just send in toy information, since we are not going to use it; However if you want to do validation, you can follow thwe guide in train part of how to use it.
+2. (92) Start testing in loop! Each loop would load onecheckpoint and generate one output.
