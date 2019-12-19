@@ -26,11 +26,10 @@ To reproduct my submission without retrainig, do the following steps:
 4. [Make Submission](#make-submission)
 
 ## Installation
-All requirements should be detailed in requirements.txt. Using Anaconda is strongly recommended.
+Using Anaconda is strongly recommended.
 ```
-conda create -n hpa python=3.6
-source activate hpa
-pip install -r requirements.txt
+conda create -n torchdet python=3.6
+activate torchdet
 ```
 #### Note: following part from detectron2's repository ####
 
