@@ -43,6 +43,7 @@ pip install -r requirements.txt
 - [fvcore](https://github.com/facebookresearch/fvcore/): `pip install git+https://github.com/facebookresearch/fvcore`
 - pycocotools: `pip install cython; pip install git+https://github.com/philferriere/cocoapi.git#subdirectory=PythonAPI`
 - VS2019(no test in older version)/CUDA10.1(no test in older version)
+* Self Note: The installation of pycocotools may be influence by some library, so the installation order may be importance. Make sure to open a new environment for minimum the risk of crash the environment. 
 
 ### several files must be changed by manually.
 ```
@@ -93,7 +94,7 @@ Same for utils.py, which may use the function binarytorle to change binary mask 
 ```
 +- utils.py
 ```
-No further modification operation need for these three files
+No further modification operation need for these three files, all located in root diurectory of detectron 2.
 ### Prepare Images
 Download images from here: https://drive.google.com/drive/folders/1fGg03EdBAxjFumGHHNhMrz2sMLLH04FK
 After downloading images, the data directory is structured as:
@@ -109,11 +110,13 @@ val
 ```
 This two folder were all training data. Keep the content of them the same.
 For testing data, it should be like:
+```
 test_images
   +- xxx.png
   +- xxx2.png
   +- ...
-For these two contents, no further need for modications excepet duplicate and rename.
+ ```
+For these two contents, no further need for modications excepet duplicate and rename, all located in root diurectory of detectron 2.
 
 ## Train models
 To train models, run following commands.
