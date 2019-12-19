@@ -29,31 +29,6 @@ coco2 = COCO("test.json") # load training annotations
 from utils import binary_mask_to_rle
 
 # use get dicts file to generate dictionary for catalog
-def get_voc_dicts(img_dir): # for reference
-    img_ids = list(coco.imgs.keys())
-    dataset_dicts = []
-    for img_id in img_ids:
-        record = {}
-        objs = []
-        record["file_name"] = os.path.join(img_dir + "/", coco.imgs[img_id]['file_name'])
-        record["width"] = coco.imgs[img_id]['width']
-        record["height"] = coco.imgs[img_id]['height']
-        record["image_id"] = img_id
-        annids = coco.getAnnIds(imgIds=img_id)
-        anns = coco.loadAnns(annids)
-        for i in range(len(annids)):
-            obj = {
-                "bbox": anns[i]['bbox'],
-                "bbox_mode": BoxMode.XYWH_ABS,
-                "segmentation": anns[i]['segmentation'],
-                "category_id": anns[i]['category_id'],
-                "iscrowd": 0
-            }
-            objs.append(obj)
-        record["annotations"] = objs
-        dataset_dicts.append(record)
-    return dataset_dicts
-
 def get_voc_test_dicts(img_dir):
     img_ids = list(coco2.imgs.keys())
     dataset_dicts = []
@@ -81,13 +56,6 @@ def get_voc_test_dicts(img_dir):
 
 # register catlogs for the model
 from detectron2.data import DatasetCatalog, MetadataCatalog
-for d in ["train", "val"]:
-    DatasetCatalog.register("voc_" + d, lambda d=d: get_voc_dicts(d))
-    MetadataCatalog.get("voc_" + d).set(thing_classes=["aeroplane",
-    "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair",
-    "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant",
-    "sheep", "sofa", "train", "tvmonitor"])
-voc_metadata = MetadataCatalog.get("voc_train")
 for d in ["test"]: # total 20 classes, name for visulization purpose(removed)
     DatasetCatalog.register("voc_" + d, lambda d=d: get_voc_test_dicts(d))
     MetadataCatalog.get("voc_" + d).set(thing_classes=["aeroplane",
@@ -102,8 +70,7 @@ from detectron2.config import get_cfg
 ''' set up config file(below) same as training '''
 cfg = get_cfg() # may inherit from file you set
 cfg.merge_from_file("./configs/MISC/cascade_mask_rcnn_R_50_FPN_3x.yaml")
-cfg.DATASETS.TRAIN = ("voc_train",)
-cfg.DATASETS.TEST = () # not using in train
+cfg.DATASETS.TRAIN = ()
 cfg.DATALOADER.NUM_WORKERS = 0 # not to OOM / break pipe
 cfg.SOLVER.IMS_PER_BATCH = 2
 cfg.SOLVER.BASE_LR = 0.00025
