@@ -24,17 +24,17 @@ from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 coco = COCO("pascal_train.json") # load training annotations
 
-def get_voc_dicts(img_dir):
-    img_ids = list(coco.imgs.keys())
+def get_voc_dicts(img_dir): # load train, vallidation data
+    img_ids = list(coco.imgs.keys()) # get all images id in json file
     dataset_dicts = []
-    for img_id in img_ids:
+    for img_id in img_ids: # run through all images
         record = {}
         objs = []
         record["file_name"] = os.path.join(img_dir + "/", coco.imgs[img_id]['file_name']) # image direcory
         record["width"] = coco.imgs[img_id]['width']
         record["height"] = coco.imgs[img_id]['height']
         record["image_id"] = img_id
-        annids = coco.getAnnIds(imgIds=img_id)
+        annids = coco.getAnnIds(imgIds=img_id) # get mask and bbox information
         anns = coco.loadAnns(annids)
         for i in range(len(annids)):
             obj = {
@@ -46,11 +46,11 @@ def get_voc_dicts(img_dir):
             }
             objs.append(obj)
         record["annotations"] = objs
-        dataset_dicts.append(record)
+        dataset_dicts.append(record) # append aone record fopr one image
     return dataset_dicts
 
-''' load dict into catlog '''
-''' also load class name into catlog '''
+# load dict into catlog
+# also load class name into catlog
 from detectron2.data import DatasetCatalog, MetadataCatalog
 for d in ["train", "val"]:
     DatasetCatalog.register("voc_" + d, lambda d=d: get_voc_dicts(d))
@@ -61,7 +61,7 @@ for d in ["train", "val"]:
 voc_metadata = MetadataCatalog.get("voc_train")
 
 dataset_dicts = get_voc_dicts("train")
-for d in random.sample(dataset_dicts, 5):
+for d in random.sample(dataset_dicts, 5): # show 5 image for debugging
     img = cv2.imread(d["file_name"])
     visualizer = Visualizer(img[:, :, ::-1], metadata=voc_metadata, scale=0.5)
     vis = visualizer.draw_dataset_dict(d)
@@ -72,11 +72,13 @@ from detectron2.engine import DefaultTrainer
 from detectron2.config import get_cfg
 
 cfg = get_cfg()
+# use cascade mrcnn config file
 cfg.merge_from_file("./configs/MISC/cascade_mask_rcnn_R_50_FPN_3x.yaml")
 cfg.DATASETS.TRAIN = ("voc_train",)
 cfg.DATASETS.TEST = ()
 cfg.DATALOADER.NUM_WORKERS = 0 # not to OOM / break pipe
-cfg.MODEL.WEIGHTS = "detectron2://ImageNetPretrained/MSRA/R-50.pkl" # can also uncomment this line to use default setting
+# can also uncomment this line to use default setting
+cfg.MODEL.WEIGHTS = "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
 cfg.SOLVER.IMS_PER_BATCH = 2
 cfg.SOLVER.BASE_LR = 0.00025
 cfg.SOLVER.MAX_ITER = 50000 # how much iteration you want to run
@@ -99,14 +101,14 @@ predictor = DefaultPredictor(cfg)
 
 ''' visualize validation datas '''
 from detectron2.utils.visualizer import ColorMode
-dataset_dicts = get_voc_dicts("val")
+dataset_dicts = get_voc_dicts("val") # tewt at validation set (currently same as train) 
 for d in random.sample(dataset_dicts, 5):    
     im = cv2.imread(d["file_name"])
     outputs = predictor(im)
     v = Visualizer(im[:, :, ::-1],
                    metadata=voc_metadata, 
                    scale=0.8, 
-                   instance_mode=ColorMode.IMAGE_BW   # remove colors ofor unsegments
+                   instance_mode=ColorMode.IMAGE_BW   # remove colors for unsegments
     )
     v = v.draw_instance_predictions(outputs["instances"].to("cpu"))
     cv2.imshow("result", (v.get_image()[:, :, ::-1]))
