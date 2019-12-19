@@ -44,7 +44,7 @@ activate torchdet
 - VS2019(no test in older version)/CUDA10.1(no test in older version)
 * Self Note: The installation of pycocotools may be influence by some library, so the installation order may be importance. Make sure to open a new environment for minimum the risk of crash the environment. 
 
-### several files must be changed by manually.
+### Several files must be changed by manually
 ```
 file1: 
   {your evn path}\Lib\site-packages\torch\include\torch\csrc\jit\argument_spec.h
