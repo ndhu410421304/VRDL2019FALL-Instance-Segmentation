@@ -100,17 +100,14 @@ from detectron2.config import get_cfg
 
 cfg = get_cfg()
 cfg.merge_from_file("./configs/MISC/cascade_mask_rcnn_R_50_FPN_3x.yaml")
-# cfg.merge_from_file("./configs/COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml")
 cfg.DATASETS.TRAIN = ("voc_train",)
 cfg.DATASETS.TEST = ()
 cfg.DATALOADER.NUM_WORKERS = 0 # not to OOM / break pipe
 cfg.SOLVER.IMS_PER_BATCH = 2
 cfg.SOLVER.BASE_LR = 0.00025
-cfg.SOLVER.MAX_ITER = 80000    # 300 iterations seems good enough, but you can certainly train longer
-cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128   # faster, and good enough for this toy dataset
-cfg.MODEL.ROI_HEADS.NUM_CLASSES = 20   # only has 20 class (ballon)
-
-cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
+cfg.SOLVER.MAX_ITER = 80000
+cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 128
+cfg.MODEL.ROI_HEADS.NUM_CLASSES = 20
 
 os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
 
@@ -118,7 +115,7 @@ cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5   # set the testing threshold for th
 cfg.DATASETS.TEST = ("voc_test", )
 dataset_dicts = get_voc_test_dicts("test")
 
-train_iter = 30000
+train_iter = 50000
 
 for i in range(int(train_iter / 5000)):
     cur_iter = ((i + 1) * 5000) - 1
@@ -144,10 +141,6 @@ for i in range(int(train_iter / 5000)):
             pred['segmentation'] = binary_mask_to_rle(mask_nd[j])
             pred['score'] = float(score_nd[j])
             coco_dt.append(pred)
-    '''
-    with open("submission" + cur_name + ".json", "w") as f:
-        json.dump(coco_dt, f)
-    '''
-    with open("0856619_" + str(i+58) + ".json", "w") as f:
+    with open("0856619_" + str(i+64) + ".json", "w") as f:
         json.dump(coco_dt, f)
     
