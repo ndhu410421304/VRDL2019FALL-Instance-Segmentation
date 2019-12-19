@@ -7,18 +7,16 @@ However since the first one is not I had not proper fine-tuned and it did not pe
 
 ## Hardware
 The following specs were used to create the original solution.
-- Ubuntu 16.04 LTS
+- Windows10
 - Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz
 - 1x NVIDIA GTX1080 
 
 ## Reproducing Submission
 To reproduct my submission without retrainig, do the following steps:
 1. [Installation](#installation)
-2. [Download Official Image](#download-official-image)
-3. [Make RGBY Images](#make-rgby-images) for official.
-4. [Download Pretrained models](#pretrained-models)
-5. [Inference](#inference)
-6. [Make Submission](#make-submission)
+2. [Dataset Preparation](#Dataset Preparation)
+3. [Train models](#Train models)
+4. [Make Submission](#make-submission)
 
 ## Installation
 All requirements should be detailed in requirements.txt. Using Anaconda is strongly recommended.
@@ -102,7 +100,7 @@ test_images
   +- ...
 For these two contents, no further need for modications excepet duplicate and rename.
 
-### Train models
+## Train models
 To train models, run following commands.
 ```
 python detectron_train_mod.py
