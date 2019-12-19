@@ -79,6 +79,8 @@ cfg.DATASETS.TEST = ()
 cfg.DATALOADER.NUM_WORKERS = 0 # not to OOM / break pipe
 # can also uncomment this line to use default setting
 cfg.MODEL.WEIGHTS = "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+# uncomment to train on your own pretrain
+# cfg.MODEL.WEIGHTS = "./output/model_final.pth"
 cfg.SOLVER.IMS_PER_BATCH = 2
 cfg.SOLVER.BASE_LR = 0.00025
 cfg.SOLVER.MAX_ITER = 50000 # how much iteration you want to run
