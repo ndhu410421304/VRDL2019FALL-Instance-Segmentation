@@ -163,4 +163,4 @@ Since you may want to customize the training and testing, heres some quick notes
 * (80) Load the config file you like. Config files can be found at config directory.
 * (85) Load the weight. Can found the pretrain weight from the config file you select, or change it to the located you put if you had prepared by yourself.
 * (92) Need to modify your class count
-* Same guidline can be apply to test process, but remember to syncronize them if you are going to do them in a sequence.
+* Same guidline can be apply to test process, and remember to syncronize them if you are going to do them in a sequence.
