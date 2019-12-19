@@ -73,6 +73,8 @@ Note: you may need to rebuild detectron2 after reinstalling a different build of
 
 #### Note: above part from detectron2's repository ####
 
+* You can view my detectron2 directory to see how to locate file correctly. Can ignore the file not mention in following.
+
 ## Dataset Preparation
 You may need to put the annotation file in root directory:
 ```
