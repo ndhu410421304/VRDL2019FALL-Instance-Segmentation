@@ -93,7 +93,12 @@ Same for utils.py, which may use the function binarytorle to change binary mask 
 ```
 +- utils.py
 ```
-No further modification operation need for these three files, all located in root diurectory of detectron 2.
+From https://github.com/ndhu410421304/VRDL2019FALL-Instance-Segmentation/tree/master/Detectron2 download detectron_train_mod.py and detectron_test_mod_mult.py, and located them in root directory
+```
++- detectron_train_mod.py
++- detectron_test_mod_mult.py
+```
+No further modification operation need for these five files, all located in root diurectory of detectron 2.
 ### Prepare Images
 Download images from here: https://drive.google.com/drive/folders/1fGg03EdBAxjFumGHHNhMrz2sMLLH04FK
 After downloading images, the data directory is structured as:
